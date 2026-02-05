@@ -54,6 +54,10 @@ function loadScript(src: string, id: string): Promise<void> {
   });
 }
 
+function isAllMimeTypes(mimeTypes: string[]): boolean {
+  return mimeTypes.includes("*");
+}
+
 function buildMimeTypeFilter(mimeTypes: string[]): string {
   return mimeTypes.map((m) => `mimeType='${m}'`).join(" or ");
 }
@@ -205,14 +209,18 @@ export function useGoogleDrive({
       setIsListingFiles(true);
 
       try {
-        const mimeTypeFilter = buildMimeTypeFilter(mimeTypes);
+        const showAll = isAllMimeTypes(mimeTypes);
         const folderFilter = folderId
           ? `'${folderId}' in parents`
           : "'root' in parents";
 
+        const fileQuery = showAll
+          ? `${folderFilter} and mimeType!='application/vnd.google-apps.folder' and trashed=false`
+          : `(${buildMimeTypeFilter(mimeTypes)}) and ${folderFilter} and trashed=false`;
+
         const [filesResponse, foldersResponse] = await Promise.all([
           window.gapi.client.drive.files.list({
-            q: `(${mimeTypeFilter}) and ${folderFilter} and trashed=false`,
+            q: fileQuery,
             fields:
               "nextPageToken, files(id, name, mimeType, size, thumbnailLink, modifiedTime, iconLink)",
             pageSize: 50,
@@ -258,11 +266,15 @@ export function useGoogleDrive({
       setIsListingFiles(true);
 
       try {
-        const mimeTypeFilter = buildMimeTypeFilter(mimeTypes);
+        const showAll = isAllMimeTypes(mimeTypes);
         const escapedQuery = query.replace(/'/g, "\\'");
 
+        const searchQuery = showAll
+          ? `name contains '${escapedQuery}' and mimeType!='application/vnd.google-apps.folder' and trashed=false`
+          : `name contains '${escapedQuery}' and (${buildMimeTypeFilter(mimeTypes)}) and trashed=false`;
+
         const response = await window.gapi.client.drive.files.list({
-          q: `name contains '${escapedQuery}' and (${mimeTypeFilter}) and trashed=false`,
+          q: searchQuery,
           fields:
             "nextPageToken, files(id, name, mimeType, size, thumbnailLink, modifiedTime, iconLink)",
           pageSize: 50,

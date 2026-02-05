@@ -26,7 +26,7 @@ export interface DrivePickerProps {
   onSelect: (files: GoogleDriveFile[]) => void;
   /** Allow multiple file selection. Default: false */
   multiple?: boolean;
-  /** Allowed MIME types. Default: images + videos */
+  /** Allowed MIME types. Use ["*"] to show all file types. Default: images + videos */
   mimeTypes?: string[];
   /** Initial view mode. Default: "grid" */
   defaultView?: ViewMode;

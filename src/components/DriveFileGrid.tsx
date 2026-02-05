@@ -68,6 +68,7 @@ export function DriveFileGrid({
               ) : (
                 <FileTypeIcon size={40} />
               )}
+              <h1>{file.thumbnailLink}</h1>
             </div>
             <span className="gdrive-picker__grid-item-name" title={file.name}>
               {file.name}

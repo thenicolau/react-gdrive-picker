@@ -88,7 +88,7 @@ function App() {
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | `multiple` | `boolean` | `false` | Enable multi-file selection |
-| `mimeTypes` | `string[]` | `["image/jpeg", "image/png", "image/webp", "video/mp4", "video/quicktime"]` | Allowed file MIME types |
+| `mimeTypes` | `string[]` | `["image/jpeg", "image/png", "image/webp", "video/mp4", "video/quicktime"]` | Allowed file MIME types. Use `["*"]` for all types |
 | `defaultView` | `"grid" \| "list"` | `"grid"` | Initial view mode |
 | `showToolbar` | `boolean` | `true` | Show the search bar and view toggle |
 | `showBreadcrumb` | `boolean` | `true` | Show the folder breadcrumb navigation |
@@ -332,7 +332,18 @@ The `mimeTypes` prop controls which file types are shown. Some common values:
 | `application/vnd.google-apps.presentation` | Google Slides |
 | `audio/mpeg` | MP3 audio |
 
-To show all file types, pass a broad list or use wildcards in your Google Cloud Console API restrictions.
+To show **all file types** without any filter, use the wildcard:
+
+```tsx
+<DrivePicker
+  clientId="..."
+  apiKey="..."
+  onSelect={handleSelect}
+  mimeTypes={["*"]}
+/>
+```
+
+This removes the MIME type filter from the Drive API query entirely, returning every file type in the user's Drive (folders are always listed separately).
 
 ## Google API Scopes
 
