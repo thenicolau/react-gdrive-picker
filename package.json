@@ -1,6 +1,6 @@
 {
   "name": "react-gdrive-picker",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "A customizable, inline Google Drive file picker component for React. Browse folders, search files, preview thumbnails, and select single or multiple files.",
   "keywords": [
     "react",
