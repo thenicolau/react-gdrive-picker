@@ -9,8 +9,19 @@
     "drive-picker",
     "google-api",
     "component",
-    "widget"
+    "widget",
+    "google",
+    "drive",
+    "picker"
   ],
+  "author": "thenicolau",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thenicolau/react-gdrive-picker.git"
+  },
+  "bugs": {
+    "url": "https://github.com/thenicolau/react-gdrive-picker/issues"
+  },
   "license": "MIT",
   "sideEffects": [
     "*.css"
